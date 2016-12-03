@@ -1,0 +1,58 @@
+<!doctype>
+<html>
+<head>
+
+  <link rel="stylesheet" href="../static/main.css" />
+
+<script  type="text/javascript" >
+function logout(){
+  location.href = '/logout';
+}
+function login(){
+  location.href = '/login';
+}
+</script>
+</head>
+<body style="padding : 25px">
+  <div style="width:100%">
+    {% if username %}
+    <td style="float: left;"><b>Welcome, {{username.name}}!</b></td>
+    <td >
+      <input id="logout"  style="float: right; " type="button" value="Logout" onclick="logout()"/>
+    </td>
+    {% else %}
+    <td >
+      <input class="alignRight" style="float: right;" type="button" value="Login" onclick="login()"/>
+    </td>
+     {% endif %}
+
+  </div>
+
+  <div>
+  <h1 style="text-align: center;"><a href="/blog/" style="text-align: center; text-decoration:none" > CS 253 Blog</a>
+  </h1>
+
+
+</div>
+  {% for post in allposts%}
+  <div class="title" style="width:100%">
+    <td><b>{{post.subject}}</b></td>
+    {% if username.name == post.created_by %}
+    <td><a href="/postEdit">[Edit]</a> </td>
+
+    <td><a href="/deletePost">[Delete]</a></td>
+    {% else %}
+    <td> <a href="/postLike" > [Like] </a> </td>
+
+    <td> <a href="/postUnlike" > [Unlike] </a> </td>
+    {% endif %}
+    <span style="float: right;">{{post.created.strftime('%Y-%m-%d')}}</span>
+    <hr style="height:1px; background-color:#333;">
+    <pre>{{post.content.replace('\n','<br>') | safe}}</pre>
+
+  </div>
+<br>
+<br>
+  {% endfor %}
+</body>
+</html>
